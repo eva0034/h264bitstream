@@ -1610,10 +1610,10 @@ int write_nal_unit(h264_stream_t* h, uint8_t* buf, int size)
         case NAL_UNIT_TYPE_CODED_SLICE_DATA_PARTITION_B: 
         case NAL_UNIT_TYPE_CODED_SLICE_DATA_PARTITION_C:
         default:
-            return -1;
+            return -2;
     }
 
-    if (bs_overrun(b)) { bs_free(b); free(rbsp_buf); return -1; }
+    if (bs_overrun(b)) { bs_free(b); free(rbsp_buf); return -3; }
 
     if( 1 )
     {
@@ -1621,7 +1621,7 @@ int write_nal_unit(h264_stream_t* h, uint8_t* buf, int size)
         rbsp_size = bs_pos(b);
 
         int rc = rbsp_to_nal(rbsp_buf, &rbsp_size, buf, &nal_size);
-        if (rc < 0) { bs_free(b); free(rbsp_buf); return -1; }
+        if (rc < 0) { bs_free(b); free(rbsp_buf); return -4; }
     }
 
     bs_free(b);
